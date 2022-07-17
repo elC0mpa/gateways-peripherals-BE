@@ -11,8 +11,8 @@ router.get("/", (req, res) => {
     .then((gateways) => {
       response.success(req, res, gateways, 200);
     })
-    .catch((err) => {
-      response.error(req, res, "No se pudo obtener la lista de gateways", 500);
+    .catch((error) => {
+      response.error(req, res, error.message, 500);
     });
 });
 
@@ -22,8 +22,8 @@ router.get("/:id", (req, res) => {
     .then((gateway) => {
       response.success(req, res, gateway, 200);
     })
-    .catch(() => {
-      response.error(req, res, "No se pudo obtener el gateway", 500);
+    .catch((error) => {
+      response.error(req, res, error.message, 500);
     });
 });
 
@@ -44,8 +44,8 @@ router.delete("/:id", (req, res) => {
     .then((gateway) => {
       response.success(req, res, gateway, 200);
     })
-    .catch(() => {
-      response.error(req, res, "No se pudo eliminar el gateway", 500);
+    .catch((error) => {
+      response.error(req, res, error.message, 500);
     });
 });
 
