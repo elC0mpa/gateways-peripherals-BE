@@ -1,23 +1,48 @@
 const model = require("./model");
 
 function addGateway(gateway) {
-  const createdGateway = new model(gateway);
-  createdGateway.save();
+  return new Promise(async (resolve, reject) => {
+    try {
+      const createdGateway = new model(gateway);
+      const saved = await createdGateway.save();
+      resolve(saved);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 async function getGateways() {
-  const gateways = await model.find();
-  return gateways;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const gateways = await model.find();
+      resolve(gateways);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 async function getGateway(id) {
-  const gateway = await model.findById(id);
-  return gateway;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const gateway = await model.findById(id);
+      resolve(gateway);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 async function deleteGateway(id) {
-  const gateway = await model.findByIdAndDelete(id);
-  return gateway;
+  return new Promise(async (resolve, reject) => {
+    try {
+      const gateway = await model.findByIdAndDelete(id);
+      resolve(gateway);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 module.exports = {
