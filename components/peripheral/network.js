@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => {
   controller
-    .getPeripherals()
+    .getPeripherals(req.body.filter)
     .then((peripherals) => {
       response.success(req, res, peripherals, 200);
     })

@@ -18,11 +18,18 @@ function addPeripheral(gateway, uid, vendor, status) {
   });
 }
 
-async function getPeripherals() {
-  return new Promise(async (resolve, reject) => {
+async function getPeripherals(filter) {
+  return new Promise((resolve, reject) => {
     try {
-      const peripherals = await model.find();
-      resolve(peripherals);
+      model
+        .find(filter)
+        .populate("gateway")
+        .exec((error, populated) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(populated);
+        });
     } catch (error) {
       reject(error);
     }
