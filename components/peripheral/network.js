@@ -11,13 +11,8 @@ router.get("/", (req, res) => {
     .then((peripherals) => {
       response.success(req, res, peripherals, 200);
     })
-    .catch((err) => {
-      response.error(
-        req,
-        res,
-        "No se pudo obtener la lista de peripherals",
-        500
-      );
+    .catch((error) => {
+      response.error(req, res, error, 500);
     });
 });
 
@@ -27,8 +22,8 @@ router.get("/:id", (req, res) => {
     .then((peripheral) => {
       response.success(req, res, peripheral, 200);
     })
-    .catch(() => {
-      response.error(req, res, "No se pudo obtener el peripheral", 500);
+    .catch((error) => {
+      response.error(req, res, error, 500);
     });
 });
 
@@ -43,8 +38,8 @@ router.post("/", (req, res) => {
     .then((peripheral) => {
       response.success(req, res, peripheral, 201);
     })
-    .catch(() => {
-      response.error(req, res, "No se pudo crear el peripheral");
+    .catch((error) => {
+      response.error(req, res, error);
     });
 });
 
@@ -54,8 +49,8 @@ router.delete("/:id", (req, res) => {
     .then((peripheral) => {
       response.success(req, res, peripheral, 200);
     })
-    .catch(() => {
-      response.error(req, res, "No se pudo eliminar el peripheral", 500);
+    .catch((error) => {
+      response.error(req, res, error, 500);
     });
 });
 

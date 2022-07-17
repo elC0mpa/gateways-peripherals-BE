@@ -4,18 +4,19 @@ const peripheralSchema = new mongoose.Schema({
   gateway: {
     type: mongoose.Schema.ObjectId,
     ref: "gateway",
+    required: [true, "Gateway ID is required"],
   },
   uid: {
     type: Number,
-    required: true,
+    required: [true, "UID is required"],
   },
   vendor: {
     type: String,
-    required: true,
+    required: [true, "Vendor is required"],
   },
   createdAt: {
     type: Date,
-    required: true,
+    required: [true, "Created at is required"],
   },
   status: {
     type: Boolean,
