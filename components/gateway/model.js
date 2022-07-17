@@ -1,9 +1,14 @@
 const mongoose = require("mongoose");
 
 const gatewaySchema = new mongoose.Schema({
+  serialNumber: {
+    type: String,
+    required: [true, "Serial number is required"],
+    unique: true,
+  },
   label: {
     type: String,
-    required: true,
+    required: [true, "Label is required"],
   },
   address: {
     type: String,
@@ -14,4 +19,3 @@ const gatewaySchema = new mongoose.Schema({
 const model = mongoose.model("gateway", gatewaySchema);
 
 module.exports = model;
-

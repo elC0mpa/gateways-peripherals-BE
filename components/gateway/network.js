@@ -29,12 +29,12 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
   controller
-    .addGateway(req.body.label, req.body.address)
+    .addGateway(req.body.serialNumber, req.body.label, req.body.address)
     .then((gateway) => {
       response.success(req, res, gateway, 201);
     })
-    .catch(() => {
-      response.error(req, res, "No se pudo crear el gateway");
+    .catch((error) => {
+      response.error(req, res, error.message);
     });
 });
 
