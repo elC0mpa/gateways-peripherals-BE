@@ -12,7 +12,13 @@ const gatewaySchema = new mongoose.Schema({
   },
   address: {
     type: String,
-    required: true,
+    validate: {
+      validator: function (v) {
+        return /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/.test(v);
+      },
+      message: (props) => `${props.value} is not a valid IP address`,
+    },
+    required: [true, "Address is required"],
   },
 });
 
