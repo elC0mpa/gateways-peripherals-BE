@@ -1,29 +1,59 @@
-const store = require("./store");
+const model = require("./model");
 
 function addPeripheral(gateway, uid, vendor, status) {
-  return store.add({
-    gateway,
-    uid,
-    vendor,
-    status,
+  return new Promise(async (resolve, reject) => {
+    try {
+      const createdPeripheral = new model({
+        gateway,
+        uid,
+        vendor,
+        status,
+        createdAt: new Date(),
+      });
+      const saved = await createdPeripheral.save();
+      resolve(saved);
+    } catch (error) {
+      reject(error);
+    }
   });
 }
 
-function getPeripherals() {
-  return store.list();
+async function getPeripherals() {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const peripherals = await model.find();
+      resolve(peripherals);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
-function getPeripheral(id) {
-  return store.get(id);
+async function getPeripheral(id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const peripheral = await model.findById(id);
+      resolve(peripheral);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
-function deletePeripheral(id) {
-  return store.delete(id);
+async function deletePeripheral(id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const peripheral = await model.findByIdAndDelete(id);
+      resolve(peripheral);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
 
 module.exports = {
   addPeripheral,
-  getPeripherals,
   getPeripheral,
+  getPeripherals,
   deletePeripheral,
 };
