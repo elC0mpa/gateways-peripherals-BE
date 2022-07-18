@@ -13,5 +13,5 @@ app.use(bodyParser.json());
 
 router(app);
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 console.log("Server listening in http://localhost:3000");
