@@ -19,8 +19,15 @@ function addGateway(serialNumber, label, address) {
 async function getGateways() {
   return new Promise(async (resolve, reject) => {
     try {
-      const gateways = await model.find();
-      resolve(gateways);
+      model
+        .find()
+        .populate("peripherals")
+        .exec((error, populated) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(populated);
+        });
     } catch (error) {
       reject(error);
     }
@@ -30,8 +37,15 @@ async function getGateways() {
 async function getGateway(id) {
   return new Promise(async (resolve, reject) => {
     try {
-      const gateway = await model.findById(id);
-      resolve(gateway);
+      model
+        .findById(id)
+        .populate("peripherals")
+        .exec((error, populated) => {
+          if (error) {
+            reject(error);
+          }
+          resolve(populated);
+        });
     } catch (error) {
       reject(error);
     }

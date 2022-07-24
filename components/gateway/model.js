@@ -20,6 +20,12 @@ const gatewaySchema = new mongoose.Schema({
     },
     required: [true, "Address is required"],
   },
+  peripherals: [
+    {
+      type: mongoose.Schema.ObjectId,
+      ref: "peripheral",
+    },
+  ],
 });
 
 const model = mongoose.model("gateway", gatewaySchema);

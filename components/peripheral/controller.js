@@ -1,6 +1,8 @@
 const model = require("./model");
+const gatewayModel = require("../gateway/model");
 
 function addPeripheral(gateway, uid, vendor, status) {
+  console.log("Add peripheral received params: ", gateway, uid, vendor, status);
   return new Promise(async (resolve, reject) => {
     try {
       const createdPeripheral = new model({
@@ -11,6 +13,9 @@ function addPeripheral(gateway, uid, vendor, status) {
         createdAt: new Date(),
       });
       const saved = await createdPeripheral.save();
+      const gatewayToUpdate = await gatewayModel.findById(gateway);
+      gatewayToUpdate.peripherals.push(saved._id);
+      await gatewayToUpdate.save();
       resolve(saved);
     } catch (error) {
       reject(error);
@@ -18,25 +23,18 @@ function addPeripheral(gateway, uid, vendor, status) {
   });
 }
 
-async function getPeripherals(filter) {
-  return new Promise((resolve, reject) => {
+function getPeripherals() {
+  return new Promise(async (resolve, reject) => {
     try {
-      model
-        .find(filter)
-        .populate("gateway")
-        .exec((error, populated) => {
-          if (error) {
-            reject(error);
-          }
-          resolve(populated);
-        });
+      const peripherals = await model.find();
+      resolve(peripherals);
     } catch (error) {
       reject(error);
     }
   });
 }
 
-async function getPeripheral(id) {
+function getPeripheral(id) {
   return new Promise(async (resolve, reject) => {
     try {
       const peripheral = await model.findById(id);
@@ -47,10 +45,25 @@ async function getPeripheral(id) {
   });
 }
 
-async function deletePeripheral(id) {
+function deletePeripheral(id) {
   return new Promise(async (resolve, reject) => {
     try {
       const peripheral = await model.findByIdAndDelete(id);
+      const { gateway } = peripheral;
+      gatewayModel.updateOne(
+        {
+          _id: gateway,
+        },
+        {
+          $pullAll: {
+            peripherals: id,
+          },
+        }
+      );
+      // gatewayModel.updateOne(
+      //   { _id: gateway },
+      //   { $pull: { peripherals: gateway } }
+      // );
       resolve(peripheral);
     } catch (error) {
       reject(error);
