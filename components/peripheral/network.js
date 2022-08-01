@@ -54,4 +54,15 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+router.patch("/:id", (req, res) => {
+  controller
+    .updatePeripheralStatus(req.params.id, req.body.status)
+    .then((peripheral) => {
+      response.success(req, res, peripheral, 200);
+    })
+    .catch((error) => {
+      response.error(req, res, error, 500);
+    });
+});
+
 module.exports = router;

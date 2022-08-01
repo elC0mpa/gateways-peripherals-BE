@@ -71,9 +71,25 @@ function deletePeripheral(id) {
   });
 }
 
+function updatePeripheralStatus(id, status) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const peripheral = await model.findByIdAndUpdate(
+        id,
+        { status },
+        { new: true }
+      );
+      resolve(peripheral);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 module.exports = {
   addPeripheral,
   getPeripheral,
   getPeripherals,
   deletePeripheral,
+  updatePeripheralStatus,
 };
